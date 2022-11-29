@@ -1,0 +1,33 @@
+{
+  "name": "molo-dapp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.1",
+    "autoprefixer": "^10.4.13",
+    "dotenv": "^16.0.3",
+    "eslint": "8.28.0",
+    "eslint-config-next": "13.0.5",
+    "ethers": "^5.7.2",
+    "graphql": "^16.6.0",
+    "ipfs-http-client": "^59.0.0",
+    "moment": "^2.29.4",
+    "next": "13.0.5",
+    "plyr-react": "^5.1.0",
+    "postcss": "^8.4.19",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.6.0",
+    "tailwindcss": "^3.2.4"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^1.0.2",
+    "hardhat": "^2.12.2"
+  }
+}
