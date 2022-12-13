@@ -7,19 +7,32 @@
 const hre = require("hardhat");
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  // const currentTimestampInSeconds = Math.round(Date.now() / 1000);
+  // const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
+  // const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
 
-  const lockedAmount = hre.ethers.utils.parseEther("1");
+  // const lockedAmount = hre.ethers.utils.parseEther("1");
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  // const Lock = await hre.ethers.getContractFactory("Lock");
+  // const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
 
-  await lock.deployed();
+  // await lock.deployed();
+  /********************************************************************************/
+  // Hardhat always runs the compile task when running scripts with its command
+  // line interface.
+  //
+  // If this script is run directly using `node` you may want to call compile
+  // manually to make sure everything is compiled
+  // await hre.run('compile');
+
+  // We get the contract to deploy
+  const Molo = await hre.ethers.getContractFactory("Molo");
+  const molo = await Molo.deploy();
+
+  await molo.deployed();
 
   console.log(
-    `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
+    `Molo has been deployed to: ${molo.address}`
   );
 }
 
