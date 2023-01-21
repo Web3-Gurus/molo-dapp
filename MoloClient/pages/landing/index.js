@@ -81,7 +81,7 @@ function Landing() {
                   className='items-center text-[#F7F7F7] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg  font-medium  p-4 mt-8 shadow-lg shadow-purple-500/50'
                   onClick={connectWallet}
                 >
-                  {isConnected ? <span>Browse Videos</span> : <span>Connect wallet</span>}
+                  {isConnected ? <span>Browsing Videos...</span> : <span>Connect wallet</span>}
                 </button>
               </div>
             </div>
