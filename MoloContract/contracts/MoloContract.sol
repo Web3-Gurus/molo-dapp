@@ -1,11 +1,11 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-contract YouTube {
+contract MoloContract {
     // Declaring the videoCount 0 by default
     uint256 public videoCount = 0;
     // Name of your contract
-    string public name = "YouTube";
+    string public name = "MoloContract";
     // Creating a mapping of videoCount to Video
     mapping(uint256 => Video) public videos;
 
