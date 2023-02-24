@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useApolloClient, gql } from '@apollo/client'
-import Video from '../../components/Video'
-import VideoComponent from '../../components/VideoContainer'
+import PerVideo from '../../components/PerVideo'
+import VideoComponent from '../../components/VideoPage'
 
 export default function VideoPage() {
   const [video, setVideo] = useState(null)
@@ -77,7 +77,7 @@ export default function VideoPage() {
     <div className='w-full   bg-[#1a1c1f]  flex flex-row'>
       <div className='flex-1 flex flex-col'>
         {video && (
-          <div className='flex flex-col m-10 justify-between      lg:flex-row'>
+          <div className='flex flex-col m-10 justify-between lg:flex-row'>
             <div className='lg:w-4/6 w-6/6'>
               <VideoComponent video={video} />
             </div>
@@ -92,7 +92,7 @@ export default function VideoPage() {
                   }}
                   key={video.id}
                 >
-                  <Video video={video} horizontal={true} />
+                  <PerVideo video={video} horizontalLayout={true} />
                 </div>
               ))}
             </div>

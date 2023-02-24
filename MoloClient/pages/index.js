@@ -1,6 +1,10 @@
 import React from 'react'
-import Landing from './landing'
+import LandingPage from './landingPage'
 
-export default function index() {
-  return <Landing />
+export default class HomePage extends React.Component {
+  render() {
+    return <LandingPage />
+  }
+
+  
 }

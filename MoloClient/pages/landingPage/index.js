@@ -1,16 +1,14 @@
-import React, {  useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Router, useRouter } from 'next/router'
-// import Link from 'next/link'
-// import { CustomButton } from '../components';
 
-function Landing() {
-  const [isConnected, setIsConnected] = useState(false);
+function LandingPage() {
+  const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
     // Check if wallet is connected
     // ...
     if (isConnected) {
-      setIsConnected(true);
+      setIsConnected(true)
     }
   }, [isConnected])
 
@@ -35,10 +33,10 @@ function Landing() {
       // At last save the user's wallet address in browser's local storage
       localStorage.setItem('walletAddress', accounts[0])
 
-      setIsConnected(true);
+      setIsConnected(true)
 
       // if connected, direct user to the home page
-      router.push('/home')
+      router.push('/homePage')
 
       // catch errors if any
     } catch (error) {
@@ -46,13 +44,11 @@ function Landing() {
     }
   }
 
-
-
   return (
     <>
       {/* Creating a hero component with black background and centering everything in the screen */}
-      <section className='flex justify-start items-center flex-col h-screen'>
-        <div className='relative w-full h-full '>
+      <section className='flex justify-start items-center flex-col h-screen  '>
+        <div className='relative w-full h-full bg-black/95 opacity-95 '>
           <img
             className='w-full h-full object-cover brightness-100'
             src='https://source.unsplash.com/1600x900/?office-meetings'
@@ -76,12 +72,16 @@ function Landing() {
                 >
                   A decentralized Video sharing dApp.
                 </p>
-                
+
                 <button
                   className='items-center text-[#F7F7F7] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg  font-medium  p-4 mt-8 shadow-lg shadow-purple-500/50'
                   onClick={connectWallet}
                 >
-                  {isConnected ? <span>Browsing Videos...</span> : <span>Connect wallet</span>}
+                  {isConnected ? (
+                    <span>Loading Videos... Please Wait.</span>
+                  ) : (
+                    <span>Connect wallet</span>
+                  )}
                 </button>
               </div>
             </div>
@@ -92,4 +92,4 @@ function Landing() {
   )
 }
 
-export default Landing
+export default LandingPage

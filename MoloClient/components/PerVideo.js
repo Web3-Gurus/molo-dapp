@@ -1,26 +1,24 @@
-import React from 'react'
-import moment from 'moment'
-
-// This function is a functional component that takes in 2 props: "horizontal" and "video"
-// "horizontal" is a boolean value that determines the layout of the component
+// This function is a functional component that takes in 2 props: "horizontalLayout" and "video"
+// "horizontalLayout" is a boolean value that determines the layout of the component
 // "video" is an object that contains information about the video being displayed
-export default function Video({ horizontal, video }) {
+export default function PerVideo({ horizontalLayout, video }) {
+  
   return (
     <div
       // Here we are using a template literal to dynamically assign class names based on the value of "horizontal"
       // "flex flex-row mx-5 mb-5  item-center justify-center cursor-pointer" will be assigned if "horizontal" is true
       // "flex flex-col m-5 cursor-pointer" will be assigned if "horizontal" is false
-      className={`${horizontal
-          ? 'flex flex-row mx-5 mb-5  item-center justify-center cursor-pointer'
+      className={`${horizontalLayout
+          ? 'flex flex-row mx-auto mb-5  item-center justify-center cursor-pointer'
           : 'flex flex-col m-5 cursor-pointer'
         } `}
     >
       <img
-        // Here we are using a template literal to dynamically assign class names based on the value of "horizontal"
-        // "object-cover rounded-lg w-60" will be assigned if "horizontal" is true
-        // "object-cover rounded-lg w-full h-40" will be assigned if "horizontal" is false
+        // Here we are using a template literal to dynamically assign class names based on the value of "horizontalLayout"
+        // "object-cover rounded-lg w-60" will be assigned if "horizontalLayout" is true
+        // "object-cover rounded-lg w-full h-40" will be assigned if "horizontalLayout" is false
         className={
-          horizontal
+          horizontalLayout
             ? 'object-cover rounded-lg w-60  '
             : 'object-cover rounded-lg w-full h-40'
         }
@@ -29,7 +27,7 @@ export default function Video({ horizontal, video }) {
         alt=''
       />
 
-      <div className={horizontal && 'ml-3  w-80'}>
+      <div className={horizontalLayout && 'ml-3  w-80'}>
         {/* This component renders the "video title" using the "video" prop */}
         <h4 className='text-md font-bold dark:text-white mt-3'>
           {video.title}
@@ -41,7 +39,10 @@ export default function Video({ horizontal, video }) {
             : video.description}
         </p>
         <p className='text-sm flex items-center text-[#878787] mt-1'>
-          Owner address: {video?.author?.slice(0, 15)} ...
+        <strong>Video Hash:{' '}</strong> {` ${video?.hash?.slice(0, 4)}...${video?.hash?.slice(38)}`}
+        </p>
+        <p className='text-sm flex items-center text-[#878787] mt-1'>
+        <strong>Owner Address:{' '}</strong>{` ${video?.author?.slice(0, 4)}...${video?.author?.slice(38)}`}
         </p>
         {console.log(video)}
       </div>

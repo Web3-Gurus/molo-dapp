@@ -1,29 +1,37 @@
+// Import the necessary libraries
 const { ethers } = require('hardhat')
 const fs = require('fs')
 
+// Declare the main function as an async function
 async function main() {
-  // We get the contract to deploy
-  const YouTube = await ethers.getContractFactory('YouTube')
-  const youtube = await YouTube.deploy()
+  
+  // Get the contract factory for the MoloContract
+  const MoloContract = await ethers.getContractFactory('MoloContract')
 
-  await youtube.deployed()
+  // Deploy the contract and assign it to a variable
+  const moloContract = await MoloContract.deploy()
 
-  console.log('YouTube deployed to:', youtube.address)
+  // Wait for the contract to be deployed and confirmed
+  await moloContract.deployed()
 
-  /* this code writes the contract addresses to a local */
-  /* file named config.js that we can use in the app */
+  // 0x4F209047Aa3644693D4CB8A2123D06CA2Dd7642d
+
+  // Log the address of the deployed contract to the console
+  console.log('MoloContract deployed to:', moloContract.address)
+
+  // Write the contract address, owner address, and ABI to a config file
   fs.writeFileSync(
     './config.js',
     `
-  export const contractAddress = "${youtube.address}"
-  export const ownerAddress = "${youtube.signer.address}"
-  export const contractAbi = "${youtube.abi}"
+  export const contractAddress = "${moloContract.address}"
+  export const ownerAddress = "${moloContract.signer.address}"
+  export const contractAbi = "${moloContract.abi}"
   `
   )
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
+// Call the main function, then exit the process with exit code 0 if successful
+// If an error occurs, log it to the console and exit the process with exit code 1
 main()
   .then(() => process.exit(0))
   .catch((error) => {

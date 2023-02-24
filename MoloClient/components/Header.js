@@ -1,75 +1,37 @@
 import React from 'react'
-import { AiOutlinePlusCircle } from 'react-icons/ai'
+import NavBar from '../components/NavBar'
 
 export const Header = ({ search }) => {
   return (
-    <header className='w-full flex justify-between h-20 items-center border-b p-4 border-[#202229]'>
-      <div className=' w-1/3    '>
-        <a href='/landing'>
-          <img
-            width={80}
-            src={'https://i.ibb.co/JHn1pjz/logo.png'}
-            alt='YouTube Logo'
-            onClick={() => {
-              window.location.href = '/landing'
-            }}
-          />
-        </a>
+    <div className="relative mb-10 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+      <NavBar />
+      <div className="absolute inset-x-0 bottom-0">
+        <svg
+          viewBox="0 0 224 12"
+          fill="currentColor"
+          className="w-full -mb-1 text-[#1a1c1f]"
+          preserveAspectRatio="none"
+        >
+          <path d="M0,0 C48.8902582,6.27314026 86.2235915,9.40971039 112,9.40971039 C137.776408,9.40971039 175.109742,6.27314026 224,0 L224,12.0441132 L0,12.0441132 L0,0 Z" />
+        </svg>
       </div>
-      <div className=' w-1/3 flex justify-center items-center'>
-        {search ? (
-          <input
-            type='text'
+      <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+        <div className="relative max-w-2xl sm:mx-auto sm:max-w-xl md:max-w-2xl sm:text-center">
+
+          <form className="flex flex-col items-center w-full mb-4 md:flex-row md:px-16">
+          {search ? (
+            <input
             onChange={(e) => search(e.target.value)}
-            placeholder='Type to search'
-            className=' border-0 bg-transparent focus:outline-none text-white'
-          />
-        ) : null}
-      </div>
-      <div className=' w-1/3 flex justify-end'>
-        <AiOutlinePlusCircle
-          onClick={() => {
-            window.location.href = '/upload'
-          }}
-          size='30px'
-          className='mr-8 fill-whiteIcons dark:fill-white cursor-pointer'
-        />
-      </div>
-    </header>
-  )
-}
+              placeholder='Type to search'
+              type="text"
+              className="flex-grow w-full h-12 px-4 mb-3 text-white transition duration-200 border-2 border-transparent rounded appearance-none md:mr-2 md:mb-0 bg-deep-purple-900 focus:border-teal-accent-700 focus:outline-none focus:shadow-outline z-30"
+            />
+            ) : null}
 
-// import React from 'react'
-// import { AiOutlinePlusCircle } from 'react-icons/ai'
-// import { TfiVideoClapper } from 'react-icons/tfi'
+          </form>
 
-// export const Header = ({ search }) => {
-//   return (
-//     <header className='w-full flex justify-between h-20 items-center border-b p-4 border-[#202229]'>
-//       <div className=' w-1/3    '>
-//         {
-//           <TfiVideoClapper className='text-lg text-purple-500 md:text-6xl font-extrabold' />
-//         }
-//       </div>
-//       <div className=' w-1/3 flex justify-center items-center'>
-//         {search ? (
-//           <input
-//             type='text'
-//             onChange={(e) => search(e.target.value)}
-//             placeholder='Type to search'
-//             className=' border-0 bg-transparent focus:outline-none text-white'
-//           />
-//         ) : null}
-//       </div>
-//       <div className=' w-1/3 flex justify-end'>
-//         <AiOutlinePlusCircle
-//           onClick={() => {
-//             window.location.href = '/upload'
-//           }}
-//           size='30px'
-//           className='mr-8 fill-whiteIcons text-purple-500 cursor-pointer'
-//         />
-//       </div>
-//     </header>
-//   )
-// }
+        </div>
+      </div>
+    </div>
+  );
+};

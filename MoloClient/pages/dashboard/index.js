@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo, useCallback } from 'react'
 import { useApolloClient, gql } from '@apollo/client'
-import Video from '../../components/Video'
+import Video from '../../components/PerVideo'
 import { Header } from '../../components/Header'
-import { useMemo, useCallback } from 'react'
-export default function Main() {
+
+
+export default function UserDashboard({ userAddress }) {
   // Creating a state to store the uploaded video
   const [videos, setVideos] = useState([])
   const [search, setSearch] = useState('')
@@ -51,8 +52,8 @@ export default function Main() {
           skip: 0,
           orderBy: 'createdAt',
           orderDirection: 'desc',
-          // NEW: Added where in order to search for videos
           where: {
+            author: userAddress,
             ...(search && {
               title_contains_nocase: search,
               category_contains_nocase: search,
@@ -68,12 +69,12 @@ export default function Main() {
       .catch((err) => {
         alert('Something went wrong. please try again.!', err.message)
       })
-  }, [GET_VIDEOS, client, search])
+  }, [GET_VIDEOS, client, search, userAddress])
 
   useEffect(() => {
     // Runs the function getVideos when the component is mounted and also if there is a change in the search stae
     getVideos()
-  }, [getVideos, search])
+  }, [getVideos, search, userAddress])
 
   return (
     <div className='w-full bg-[#1a1c1f] flex flex-row'>

@@ -1,10 +1,18 @@
-export const NFT_CONTRACT_ADDRESS = '0xb926b2F480801d4865400bb0670F9611E90709Fe'
-export const NFT_OWNER_ADDRESS = '0xc8A81E39a7c656Be15FA062e5D57daD60304fE0D'
-export const NFT_CONTRACT_ABI = [
+export const CONTRACT_ADDRESS = '0x4F209047Aa3644693D4CB8A2123D06CA2Dd7642d'
+export const OWNER_ADDRESS = '0xc8A81E39a7c656Be15FA062e5D57daD60304fE0D'
+export const CONTRACT_ABI = [
   {
-    inputs: [],
-    stateMutability: 'nonpayable',
-    type: 'constructor',
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
+      },
+    ],
+    name: 'DeletedVideo',
+    type: 'event',
   },
   {
     anonymous: false,
@@ -64,17 +72,103 @@ export const NFT_CONTRACT_ABI = [
         type: 'address',
       },
     ],
-    name: 'VideoUploaded',
+    name: 'UploadedVideo',
     type: 'event',
   },
   {
     inputs: [],
-    name: 'name',
+    name: '_paused',
     outputs: [
       {
-        internalType: 'string',
+        internalType: 'bool',
         name: '',
-        type: 'string',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: '_videoId',
+        type: 'uint256',
+      },
+    ],
+    name: 'deleteVideo',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getUserVideos',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'id',
+            type: 'uint256',
+          },
+          {
+            internalType: 'string',
+            name: 'hash',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'title',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'description',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'location',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'category',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'thumbnailHash',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'date',
+            type: 'string',
+          },
+          {
+            internalType: 'address',
+            name: 'author',
+            type: 'address',
+          },
+        ],
+        internalType: 'struct MoloContract.Video[]',
+        name: '',
+        type: 'tuple[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'numberOfVideos',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
       },
     ],
     stateMutability: 'view',
@@ -124,8 +218,19 @@ export const NFT_CONTRACT_ABI = [
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'videoCount',
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    name: 'userVideos',
     outputs: [
       {
         internalType: 'uint256',

@@ -2,8 +2,8 @@ import React, { useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import { BiCloud, BiMusic, BiPlus } from 'react-icons/bi'
 import { create } from 'ipfs-http-client'
-import saveToIPFS from '../../utils/saveToIPFS'
-import getContract from '../../utils/getContract'
+import ipfs from '../../constants/ipfs'
+import getContract from '../../constants/getContract'
 // =============================================
 import { useCreateAsset } from '@livepeer/react'
 const projectId = '2EOjlt0j1XeKHmsL8Z5I7FCmrAl'
@@ -55,11 +55,11 @@ export default function Upload() {
     }
     // If user has filled all the fields, upload the thumbnail to IPFS
     await uploadThumbnail(thumbnail)
-    // router.push(`/home`)
+    router.push(`/homePage`)
   }
 
   const discard = async () => {
-    router.push(`/home`)
+    router.push(`/homePage`)
   }
 
   // Function to upload the video to IPFS
