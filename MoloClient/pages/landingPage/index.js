@@ -1,52 +1,56 @@
+// Importing the necessary modules from React and Next.js libraries
 import React, { useEffect, useState } from 'react'
-import { Router, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 
-function LandingPage() {
-  const [isConnected, setIsConnected] = useState(false)
+// Defining the LandingPage component
+const LandingPage = () => {
+  // Initializing a state variable 'MetamaskWalletIsConnected' using useState hook
+  const [MetamaskWalletIsConnected, setMetamaskWalletIsConnected] =
+    useState(false)
 
+  // Defining a side-effect using useEffect hook to update the state variable
   useEffect(() => {
-    // Check if wallet is connected
-    // ...
-    if (isConnected) {
-      setIsConnected(true)
+    if (MetamaskWalletIsConnected) {
+      setMetamaskWalletIsConnected(true)
     }
-  }, [isConnected])
+  }, [MetamaskWalletIsConnected])
 
-  const router = useRouter()
-  // Creating a function to connect user's wallet
+  // Initializing a variable 'redirectToHome' using useRouter hook
+  const redirectToHome = useRouter()
+
+  // Defining an asynchronous function 'connectWallet' to connect to MetaMask wallet
   const connectWallet = async () => {
     try {
+      // Accessing the 'ethereum' object from the window object
       const { ethereum } = window
 
-      // Checking if user have Metamask installed
+      // Displaying an alert message if MetaMask wallet is not installed
       if (!ethereum) {
-        // If user doesn't have Metamask installed, throw an error
-        alert('Please install MetaMask')
+        window.alert('Please install MetaMask Wallet from the chrome Extension')
         return
       }
 
-      // If user has Metamask installed, connect to the user's wallet
-      const accounts = await ethereum.request({
+      // Requesting access to the user's accounts from the MetaMask wallet
+      const allUserAccounts = await ethereum.request({
         method: 'eth_requestAccounts',
       })
 
-      // At last save the user's wallet address in browser's local storage
-      localStorage.setItem('walletAddress', accounts[0])
+      // Storing the user's wallet address in the localStorage
+      localStorage.setItem('walletAddress', allUserAccounts[0])
 
-      setIsConnected(true)
+      // Updating the state variable 'MetamaskWalletIsConnected' to true
+      setMetamaskWalletIsConnected(true)
 
-      // if connected, direct user to the home page
-      router.push('/homePage')
-
-      // catch errors if any
+      // Redirecting the user to the home page using the 'push' method of the 'redirectToHome' object
+      redirectToHome.push('/homePage')
     } catch (error) {
       console.log(error)
     }
   }
 
+  // Rendering the LandingPage component
   return (
     <>
-      {/* Creating a hero component with black background and centering everything in the screen */}
       <section className='flex justify-start items-center flex-col h-screen  '>
         <div className='relative w-full h-full bg-black/95 opacity-95 '>
           <img
@@ -77,10 +81,10 @@ function LandingPage() {
                   className='items-center text-[#F7F7F7] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg  font-medium  p-4 mt-8 shadow-lg shadow-purple-500/50'
                   onClick={connectWallet}
                 >
-                  {isConnected ? (
+                  {MetamaskWalletIsConnected ? (
                     <span>Loading Videos... Please Wait.</span>
                   ) : (
-                    <span>Connect wallet</span>
+                    <span>Connect MetaMask wallet</span>
                   )}
                 </button>
               </div>

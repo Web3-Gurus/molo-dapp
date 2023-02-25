@@ -1,19 +1,13 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// ! replaced "videoCount" with "numberOfVideos"
-// ! replaced "VideoUploaded" with "UploadedVideo"
-// ! replaced "VideoUploaded" with "UploadedVideo"
-
 contract MoloContract {
-
 
     // A boolean variable to check if the contract is paused
     bool public _paused;
     
     // A counter for the total number of videos uploaded
     uint256 public numberOfVideos;
-
 
     // Define a struct to represent a video
     struct Video {
@@ -57,7 +51,7 @@ contract MoloContract {
         // Return the array of Video structs representing the user's videos
         return userVideosArray;
     }
-    // ! added paused modifier
+    
 // pause if there is an emergency
         modifier onlyWhenNotPaused {
         require(!_paused, "Contract currently paused");

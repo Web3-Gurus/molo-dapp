@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from './contractUtils'
 
-export default function getContract() {
+const contractDetails = () => {
   // Creating a new provider
   const provider = new ethers.providers.Web3Provider(window.ethereum)
   // Getting the signer
@@ -11,3 +11,5 @@ export default function getContract() {
   // Returning the contract
   return contract
 }
+
+export default contractDetails
