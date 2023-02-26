@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import NavBar from '../components/NavBar'
 
-export default class Header extends Component {
+class Header extends Component {
   render() {
     const { searchByTitle } = this.props
 
@@ -36,3 +36,5 @@ export default class Header extends Component {
     )
   }
 }
+
+export default Header

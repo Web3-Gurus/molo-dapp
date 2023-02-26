@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react'
 import { useApolloClient, gql } from '@apollo/client'
 import Video from '../../components/PerVideo'
-import { Header } from '../../components/Header'
-
+import Header from '../../components/Header'
 
 export default function UserDashboard({ userAddress }) {
   // Creating a state to store the uploaded video
