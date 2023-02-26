@@ -84,7 +84,7 @@ const LandingPage = () => {
                   {MetamaskWalletIsConnected ? (
                     <span>Loading Videos... Please Wait.</span>
                   ) : (
-                    <span>Connect MetaMask wallet</span>
+                    <span>Connect wallet</span>
                   )}
                 </button>
               </div>
