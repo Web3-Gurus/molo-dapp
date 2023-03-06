@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-contract VideoPlatform {
+contract MoloContract {
     // Define a Video struct to store the video information
     struct Video {
         uint256 id;

@@ -1,7 +1,6 @@
 // Import the necessary libraries
-const { ethers } = require('hardhat');
-const hre = require("hardhat");;
-// const { JsonRpcProvider } = require('ethers');
+// const { ethers } = require('hardhat');
+const hre = require("hardhat");
 const { writeFileSync } = require('fs');
 require('dotenv').config();
 
@@ -11,18 +10,18 @@ async function main() {
   await hre.ethers.getContractFactory('MoloContract')
 
   // Get the deployer's signer account
-  const [deployer] = await ethers.getSigners()
+  const [deployer] = await hre.ethers.getSigners()
 
   console.log("Deploying contracts with the account:", deployer.address);
 
   // Get the contract factory for the MoloContract
-  const MoloContract = await hre.ethers.getContractFactory('MoloContract')
+  const MoloContract = await hre.ethers.getContractFactory('MoloContract');
 
   // Deploy the contract and assign it to a variable
-  const moloContract = await MoloContract.deploy()
+  const moloContract = await MoloContract.deploy();
 
   // Wait for the contract to be deployed and confirmed
-  await moloContract.deployed()
+  await moloContract.deployed();
 
   // Log the address of the deployed contract to the console
   console.log('MoloContract deployed to:', moloContract.address)
