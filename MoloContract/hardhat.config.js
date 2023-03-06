@@ -1,21 +1,24 @@
-require('@nomicfoundation/hardhat-toolbox')
-require('dotenv').config({ path: '.env' })
+const dotenv = require('dotenv');
+const { HardhatNetworkUserConfig } = require('hardhat/types/config');
 
-const PRIVATE_KEY = process.env.PRIVATE_KEY
-const POLYGONSCAN_KEY = process.env.POLYGONSCAN_KEY
-// const QUICKNODE_HTTP_URL = process.env.QUICKNODE_HTTP_URL
+// Load environment variables from .env file
+dotenv.config();
 
-module.exports = {
+const PRIVATE_KEY = `0x${process.env.PRIVATE_KEY}`;
+const POLYGONSCAN_KEY = process.env.POLYGONSCAN_KEY;
+
+/**
+ * @type import('hardhat/config').HardhatUserConfig
+ */
+const config = {
   solidity: '0.8.9',
   networks: {
     mumbai: {
-      url: 'https://rpc-mumbai.maticvigil.com',
+      url: process.env.MUMBAI_RPC_URL,
       accounts: [PRIVATE_KEY],
     },
   },
-  etherscan: {
-    apiKey: {
-      polygonMumbai: POLYGONSCAN_KEY,
-    },
-  },
-}
+};
+
+// Export config
+module.exports = config;

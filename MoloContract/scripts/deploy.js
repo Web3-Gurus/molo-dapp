@@ -1,12 +1,22 @@
 // Import the necessary libraries
-const { ethers } = require('hardhat')
-const fs = require('fs')
+const { ethers } = require('hardhat');
+const hre = require("hardhat");;
+// const { JsonRpcProvider } = require('ethers');
+const { writeFileSync } = require('fs');
+require('dotenv').config();
 
 // Declare the main function as an async function
 async function main() {
-  
+  // Compile the contract if needed
+  await hre.ethers.getContractFactory('MoloContract')
+
+  // Get the deployer's signer account
+  const [deployer] = await ethers.getSigners()
+
+  console.log("Deploying contracts with the account:", deployer.address);
+
   // Get the contract factory for the MoloContract
-  const MoloContract = await ethers.getContractFactory('MoloContract')
+  const MoloContract = await hre.ethers.getContractFactory('MoloContract')
 
   // Deploy the contract and assign it to a variable
   const moloContract = await MoloContract.deploy()
@@ -14,19 +24,20 @@ async function main() {
   // Wait for the contract to be deployed and confirmed
   await moloContract.deployed()
 
-  // 0x4F209047Aa3644693D4CB8A2123D06CA2Dd7642d
-
   // Log the address of the deployed contract to the console
   console.log('MoloContract deployed to:', moloContract.address)
 
+  // Convert the contract ABI to a string and store it in a variable
+  const contractAbi = JSON.stringify(moloContract.abi)
+
   // Write the contract address, owner address, and ABI to a config file
-  fs.writeFileSync(
+  writeFileSync(
     './config.js',
     `
-  export const contractAddress = "${moloContract.address}"
-  export const ownerAddress = "${moloContract.signer.address}"
-  export const contractAbi = "${moloContract.abi}"
-  `
+    export const contractAddress = "${moloContract.address}"
+    export const ownerAddress = "${deployer.address}"
+    export const contractAbi = ${contractAbi}
+    `
   )
 }
 

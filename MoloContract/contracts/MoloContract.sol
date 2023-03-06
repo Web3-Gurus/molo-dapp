@@ -1,74 +1,90 @@
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.0;
 
-contract MoloContract {
-
-    // A boolean variable to check if the contract is paused
-    bool public _paused;
-    
-    // A counter for the total number of videos uploaded
-    uint256 public numberOfVideos;
-
-    // Define a struct to represent a video
+contract VideoPlatform {
+    // Define a Video struct to store the video information
     struct Video {
-        uint256 id; // Unique ID for the video
-        string hash; // IPFS hash of the video file
-        string title; // Title of the video
-        string description; // Description of the video
-        string location; // Location of the video
-        string category; // Category of the video
-        string thumbnailHash; // IPFS hash of the video thumbnail
-        string date; // Date when the video was uploaded
-        address author; // Address of the author who uploaded the video
+        uint256 id;
+        bytes32 contentHash;
+        string title;
+        string description;
+        string location;
+        string category;
+        bytes32 thumbnailHash;
+        string date;
+        address author;
     }
 
-    // A mapping to store the video IDs for each user
-    mapping(address => uint256[]) public userVideos;
-
-    // A mapping to store the Video struct for each video ID
+    // Define a mapping to store the videos by their ID
     mapping(uint256 => Video) public videos;
 
-    // An event to emit when a new video is uploaded
-    event UploadedVideo(uint256 id, string hash, string title, string description, string location, string category, string thumbnailHash, string date, address author);
+    // Define a mapping to store the video IDs uploaded by a user
+    mapping(address => uint256[]) public userVideos;
 
-       // An event to emit when a new video is deleted
-    event DeletedVideo(uint256 id);
+    // Define the maximum number of videos a user can upload
+    uint256 public maxVideosPerUser = 10;
 
-    // A function to get all the videos uploaded by the user calling the function
-    function getUserVideos() public view returns (Video[] memory) {
-        
-        // Get the list of video IDs for the current user
-        uint256[] memory userVideoIds = userVideos[msg.sender];
-        
-        // Create a new array of Video structs to store the user's videos
-        Video[] memory userVideosArray = new Video[](userVideoIds.length);
-        
-        // Loop through the user's video IDs and add the corresponding Video struct to the new array
-        for (uint256 i = 0; i < userVideoIds.length; i++) {
-            userVideosArray[i] = videos[userVideoIds[i]];
-        }
-        
-        // Return the array of Video structs representing the user's videos
-        return userVideosArray;
-    }
-    
-// pause if there is an emergency
-        modifier onlyWhenNotPaused {
-        require(!_paused, "Contract currently paused");
-        _;
-    }
+    // Define a counter to generate new unique IDs for the videos
+    uint256 public numberOfVideos;
+
+    // Define an event to emit when a new video is uploaded
+    event UploadedVideo(
+        uint256 indexed id,
+        bytes32 contentHash,
+        string title,
+        string description,
+        string location,
+        string category,
+        bytes32 thumbnailHash,
+        string date,
+        address indexed author
+    );
+
+    // Define an event to emit when a video is deleted
+    event DeletedVideo(
+        uint256 indexed id,
+        address author,
+        bytes32 contentHash
+    );
 
     // A function to upload a new video to the platform
-    function uploadVideo(string memory _videoHash, string memory _title, string memory _description, string memory _location, string memory _category, string memory _thumbnailHash, string memory _date) public {
-        
-        // Require that the video hash and title are not empty, and the sender address is not zero
-        require(bytes(_videoHash).length > 0);
-        require(bytes(_title).length > 0);
-        require(msg.sender != address(0));
+    function uploadVideo(
+        bytes32 _videoHash,
+        string memory _title,
+        string memory _description,
+        string memory _location,
+        string memory _category,
+        bytes32 _thumbnailHash,
+        string memory _date
+    ) public {
+        // Validate inputs
+        require(_videoHash != bytes32(0), "Video hash cannot be empty");
+        require(bytes(_title).length > 0, "Title cannot be empty");
+        require(msg.sender != address(0), "Invalid sender address");
+        require(validateDate(_date), "Invalid date format");
+        require(
+            bytes(_description).length <= 500,
+            "Description cannot exceed 500 characters"
+        );
+        require(
+            bytes(_location).length <= 50,
+            "Location cannot exceed 50 characters"
+        );
+        require(
+            bytes(_category).length <= 20,
+            "Category cannot exceed 20 characters"
+        );
+
+        // Verify ownership
+        require(
+            userVideos[msg.sender].length < maxVideosPerUser,
+            "Maximum videos uploaded"
+        );
 
         // Increment the video counter to generate a new unique ID for the video
         numberOfVideos++;
-        
+
         // Create a new Video struct with the given parameters and add it to the videos mapping
         videos[numberOfVideos] = Video(
             numberOfVideos,
@@ -81,7 +97,10 @@ contract MoloContract {
             _date,
             msg.sender
         );
-        
+
+        // Add the video ID to the userVideos mapping for the uploader
+        userVideos[msg.sender].push(numberOfVideos);
+
         // Emit an event indicating that a new video has been uploaded
         emit UploadedVideo(
             numberOfVideos,
@@ -96,6 +115,20 @@ contract MoloContract {
         );
     }
 
+    // A function to validate the date format
+    function validateDate(string memory _date) private pure returns (bool) {
+        bytes memory d = bytes(_date);
+        if (d.length != 10) return false;
+        if (d[4] != 0x2D || d[7] != 0x2D) return false;
+        for (uint256 i = 0; i < d.length; i++) {
+            if (i == 4 || i == 7) continue;
+            if (d[i] < 0x2D || d[i] > 0x39) return false;
+        }
+        return true;
+    }
+
+
+
     // A function to delete a video by ID
     function deleteVideo(uint256 _videoId) public {
         // Get the video from the videos mapping
@@ -103,11 +136,11 @@ contract MoloContract {
 
         // Ensure the video exists and the caller is the author
         require(video.id == _videoId, "Video does not exist");
-        require(video.author == msg.sender, "Not authorized to delete video");
+        require(video.author == msg.sender, "Only the video author can delete the video");
 
         // Remove the video ID from the userVideos mapping for the author
         uint256[] storage authorVideos = userVideos[msg.sender];
-        for (uint i = 0; i < authorVideos.length; i++) {
+        for (uint256 i = 0; i < authorVideos.length; i++) {
             if (authorVideos[i] == _videoId) {
                 authorVideos[i] = authorVideos[authorVideos.length - 1];
                 authorVideos.pop();
@@ -119,7 +152,9 @@ contract MoloContract {
         delete videos[_videoId];
 
         // Emit an event indicating the video has been deleted
-        emit DeletedVideo(_videoId);
+        emit DeletedVideo(_videoId, video.author, video.contentHash);
     }
+
+
 
 }
