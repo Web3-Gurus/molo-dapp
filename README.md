@@ -18,13 +18,13 @@ A project snapshot of the landing page.
 
 # Project Author(s)
 
-- Chidozie Zeno Ezeanekwe, [https://github.com/zenodavids](https://github.com/zenodavids)
+- Chidozie, [https://github.com/zenodavids](https://github.com/zenodavids)
 
-- Wale Oladeinde, [https://github.com/jupiterBill](https://github.com/jupiterBill)
+- Wale, [https://github.com/jupiterBill](https://github.com/jupiterBill)
 
-- Edwin Anajemba, [https://github.com/anajembaedwin](https://github.com/anajembaedwin)
+- Edwin, [https://github.com/anajembaedwin](https://github.com/anajembaedwin)
 
-- Olalekan Solomon Awoyemi, [https://github.com/soloexcel](https://github.com/soloexcel)
+- Olalekan, [https://github.com/soloexcel](https://github.com/soloexcel)
 
 
 # How to Install and Run the Project
